@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+    integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"
+  integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://unpkg.com/alpinejs@3.2.3/dist/cdn.min.js"></script>
+
+  <style>
+    .h-custom {
+        height: 80vh; /* Adjust the percentage to your desired height */
+    }
+</style>
+  <body class="" >
+
+
+
+
+
+    
+    <div class=" overflow  ">
+      <!-- Header -->
+    <%- include('headerpink') %>
+
+
+
+    <!-- Carosul  -->
+
+
+
+    <article x-data="slider" x-init="startAutoSlide" class="relative mb-5    w-full flex flex-shrink-0 overflow-hidden shadow-2xl">
+        <div class="rounded-full bg-gray-600 text-white absolute top-5 right-5 text-sm px-2 text-center z-10">
+            <span x-text="currentIndex"></span>/
+            <span x-text="images.length"></span>
+        </div>
+    
+        <template x-for="(image, index) in images">
+            <figure class="h-custom" x-show="currentIndex == index + 1" x-transition:enter="transition transform duration-300"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition transform duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0">
+            <img :src="image" alt="Image" class="absolute    h-full w-full object-cover " />
+            <figcaption class="absolute inset-x-0 text-white   fst-italic  bottom-1 z-20 w-96 mx-auto p-3 font-light text-sm text-center tracking-widest leading-snug bg-pink-500 ">
+              Welcome to Event management system, your all-in-one solution for seamless event planning and management. </figcaption>
+            </figure>
+            
+        </template>
+    
+        <button @click="back()"
+            class="absolute left-14 top-1/2 -translate-y-1/2 w-11 h-11 flex justify-center items-center rounded-full shadow-md z-10 bg-gray-100 hover:bg-gray-200">
+            <svg class=" w-8 h-8 font-bold transition duration-500 ease-in-out transform motion-reduce:transform-none text-gray-500 hover:text-gray-600 hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7">
+                </path>
+            </svg>
+        </button>
+    
+        <button @click="next()"
+        class="absolute right-14 top-1/2 translate-y-1/2 w-11 h-11 flex justify-center items-center rounded-full shadow-md z-10 bg-gray-100 hover:bg-gray-200">
+            <svg class=" w-8 h-8 font-bold transition duration-500 ease-in-out transform motion-reduce:transform-none text-gray-500 hover:text-gray-600 hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+    </article>
+    
+   
+   
+
+
+
+<%- include ('footer') %>
+
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('slider', () => ({
+      currentIndex: 1,
+      images: [
+        '../images/events (2).jpg',
+        '../images/events (5).jpg',
+        '../images/events (3).jpg',
+        '../images/events (1).jpg',
+        '../images/events (5).jpg'
+      ],
+      back() {
+        if (this.currentIndex > 1) {
+          this.currentIndex = this.currentIndex - 1;
+        }
+      },
+      next() {
+        if (this.currentIndex < this.images.length) {
+          this.currentIndex = this.currentIndex + 1;
+        } else if (this.currentIndex <= this.images.length) {
+          this.currentIndex = this.images.length - this.currentIndex + 1;
+        }
+      },
+      startAutoSlide() {
+        this.autoSlideInterval = setInterval(() => {
+          this.next();
+        }, 3000); // Change the interval time (in milliseconds) as needed
+      },
+      stopAutoSlide() {
+        clearInterval(this.autoSlideInterval);
+      },
+    }));
+  });
+</script>
+
+
+
+</body>
+</html>
